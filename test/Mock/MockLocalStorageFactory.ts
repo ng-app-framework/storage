@@ -2,7 +2,7 @@ import {LocalStorageFactory} from "../../src/app/Service/Impl/LocalStorageFactor
 import {LocallyStorable} from "../../src/app/Service/Interface/LocallyStorable";
 import {DummyStorage} from "../../src/app/Service/Impl/DummyStorage";
 
-export class MockFactory implements LocalStorageFactory {
+export class MockLocalStorageFactory implements LocalStorageFactory {
     public getLocalStorage(): LocallyStorable {
         return new DummyStorage();
     }

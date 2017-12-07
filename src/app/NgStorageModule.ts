@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
-import {CoreModule} from "@ng-app-framework/core";
+import {NgCoreModule} from "@ng-app-framework/core";
 
 
 @NgModule({
     imports: [
-        CoreModule
+        NgCoreModule
     ]
 })
-export class StorageModule {
+export class NgStorageModule {
 
     constructor() {
 

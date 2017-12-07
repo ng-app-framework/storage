@@ -1,6 +1,6 @@
 import {objectValue, stringValue} from "../Mock/dependencies";
-import {MockConverter} from "../Mock/MockConverter";
-import {MockFactory} from "../Mock/MockFactory";
+import {MockObjectConverter} from "../Mock/MockObjectConverter";
+import {MockLocalStorageFactory} from "../Mock/MockLocalStorageFactory";
 import {Storage} from "../../src/app/Service/Impl/Storage";
 
 describe('Storage', () => {
@@ -12,7 +12,7 @@ describe('Storage', () => {
         }
 
         loadDependencies() {
-            super.loadDependencies(new MockConverter(), new MockFactory());
+            super.loadDependencies(new MockObjectConverter(), new MockLocalStorageFactory());
         }
     }
 

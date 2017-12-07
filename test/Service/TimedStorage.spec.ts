@@ -1,5 +1,5 @@
-import {MockFactory} from "../Mock/MockFactory";
-import {MockConverter} from "../Mock/MockConverter";
+import {MockLocalStorageFactory} from "../Mock/MockLocalStorageFactory";
+import {MockObjectConverter} from "../Mock/MockObjectConverter";
 import {TimedStorage} from "../../src/app/Service/Impl/TimedStorage";
 
 describe('TimedStorage', () => {
@@ -11,7 +11,7 @@ describe('TimedStorage', () => {
         }
 
         loadDependencies() {
-            super.loadDependencies(new MockConverter(), new MockFactory());
+            super.loadDependencies(new MockObjectConverter(), new MockLocalStorageFactory());
         }
     }
 

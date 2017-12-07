@@ -1,7 +1,7 @@
 import {objectValue, stringValue} from "./dependencies";
 import {Converter} from "../../src/app/Service/Interface/Converter";
 
-export class MockConverter implements Converter {
+export class MockObjectConverter implements Converter {
     toString(value: any, shouldConvert?: (key: string) => boolean) {
         return stringValue;
     }
