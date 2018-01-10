@@ -20,7 +20,6 @@
             "styles"           : [
             ],
             "scripts"          : [
-                "./lib/rxjs.ts"
             ],
             "environmentSource": "src/environment.ts",
             "environments"     : {
