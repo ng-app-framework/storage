@@ -54,7 +54,6 @@ export class Storage implements Storable {
     }
 
     update(propertyBag: any) {
-        console.log('Updating', propertyBag);
         for (let property in propertyBag) {
             if (propertyBag.hasOwnProperty(property)) {
                 this.set(property, propertyBag[property], false);
