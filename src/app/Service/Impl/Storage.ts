@@ -1,11 +1,13 @@
-import {Storable} from "../Interface/Storable";
-import {ObjectConverter} from "./ObjectConverter";
-import {LocallyStorable} from "../Interface/LocallyStorable";
+import {Storable}            from "../Interface/Storable";
+import {ObjectConverter}     from "./ObjectConverter";
+import {LocallyStorable}     from "../Interface/LocallyStorable";
 import {LocalStorageFactory} from "./LocalStorageFactory";
-import {Converter} from "../Interface/Converter";
-import {Value} from "@ng-app-framework/core";
+import {Converter}           from "../Interface/Converter";
+import {Value}               from "@ng-app-framework/core";
 
 export class Storage implements Storable {
+
+    static registry = {};
 
     localStorageFactory: LocalStorageFactory = null;
     localStorage: LocallyStorable            = null;
@@ -14,6 +16,7 @@ export class Storage implements Storable {
 
     constructor(public storageKey: string) {
         this.loadDependencies();
+        Storage.registry[storageKey] = this;
     }
 
     loadDependencies(converter: Converter = new ObjectConverter(), localStorageFactory: LocalStorageFactory = new LocalStorageFactory()) {
@@ -30,6 +33,34 @@ export class Storage implements Storable {
         this.isCached = false;
         this.setItem('');
 
+    }
+
+    set(key: string, value: any, store: boolean = true) {
+        if (this.shouldStore(key)) {
+            this[key] = value;
+            if (store) {
+                this.store();
+            }
+            return;
+        }
+        throw `${this.constructor.name} - ${key} cannot be stored`;
+    }
+
+    get(key: string) {
+        if (this.shouldStore(key)) {
+            return this[key];
+        }
+        throw `${this.constructor.name} - ${key} cannot be stored`;
+    }
+
+    update(propertyBag: any) {
+        console.log('Updating', propertyBag);
+        for (let property in propertyBag) {
+            if (propertyBag.hasOwnProperty(property)) {
+                this.set(property, propertyBag[property], false);
+            }
+        }
+        this.store();
     }
 
     public store() {
@@ -54,14 +85,14 @@ export class Storage implements Storable {
         let stored = this.getItem();
         if (stored) {
             this.isCached = true;
-            Object.assign(this, this.converter.fromString(stored, (key: string) => {
-                return this.hasValue(key) && this.shouldStore(key);
+            this.update(this.converter.fromString(stored, (key: string) => {
+                return this.shouldStore(key);
             }));
         }
     }
 
     shouldStore(key: string) {
-        return ['storageKey', 'storage', 'localStorage', 'localStorageFactory', 'isCached', 'converter'].indexOf(key) === -1;
+        return this.hasValue(key) && ['storageKey', 'storage', 'localStorage', 'localStorageFactory', 'isCached', 'converter'].indexOf(key) === -1 && typeof this[key] !== 'function';
     }
 
     protected setItem(value: any) {

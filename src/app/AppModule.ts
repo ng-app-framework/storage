@@ -1,7 +1,21 @@
-import {Component, NgModule} from "@angular/core";
-import {BrowserModule} from "@angular/platform-browser";
-import {CommonModule} from "@angular/common";
-import {NgStorageModule} from "./NgStorageModule";
+import {Component, Injectable, NgModule} from "@angular/core";
+import {BrowserModule}                   from "@angular/platform-browser";
+import {CommonModule}                    from "@angular/common";
+import {Observable}                      from "rxjs";
+import {NgStorageModule}                 from "./NgStorageModule";
+import {Storage}                         from "./Service/Impl/Storage";
+
+@Injectable()
+export class TestStorage extends Storage {
+
+    prop1 = 0;
+    prop2 = 0;
+    prop3 = 0;
+
+    constructor() {
+        super('test');
+    }
+}
 
 @Component({
     selector: 'app',
@@ -11,8 +25,19 @@ import {NgStorageModule} from "./NgStorageModule";
 })
 export class AppComponent {
 
-    constructor() {
+    constructor(public testStorage: TestStorage) {
+        testStorage.load();
+    }
 
+    ngOnInit() {
+        Observable.interval(1000)
+                  .subscribe((val) => {
+                      this.testStorage.update({
+                          prop1: ++this.testStorage.prop1,
+                          prop2: ++this.testStorage.prop2,
+                          prop3: ++this.testStorage.prop3
+                      });
+                  })
     }
 }
 
@@ -24,7 +49,7 @@ export class AppComponent {
         NgStorageModule
     ],
     exports     : [AppComponent],
-    providers   : [],
+    providers   : [TestStorage],
     bootstrap   : [AppComponent]
 
 })
