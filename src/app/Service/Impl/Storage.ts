@@ -71,11 +71,11 @@ export class Storage implements Storable {
         }));
     }
 
-    private hasValue(key: string) {
+    protected hasValue(key: string) {
         return Value.isDefined(this[key]);
     }
 
-    private assertStorageKeySet() {
+    protected assertStorageKeySet() {
         if (!this.storageKey || this.storageKey === '') {
             throw `Storage Key Not Set: ${this.constructor.name}`;
         }
