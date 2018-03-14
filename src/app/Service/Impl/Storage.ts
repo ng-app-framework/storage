@@ -53,13 +53,15 @@ export class Storage implements Storable {
         throw `${this.constructor.name} - ${key} cannot be stored`;
     }
 
-    update(propertyBag: any) {
+    update(propertyBag: any, persist: boolean = true) {
         for (let property in propertyBag) {
             if (propertyBag.hasOwnProperty(property)) {
                 this.set(property, propertyBag[property], false);
             }
         }
-        this.store();
+        if (persist) {
+            this.store();
+        }
     }
 
     public store() {
