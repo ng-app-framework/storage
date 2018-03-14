@@ -88,7 +88,7 @@ export class Storage implements Storable {
             this.isCached = true;
             this.update(this.converter.fromString(stored, (key: string) => {
                 return this.shouldStore(key);
-            }));
+            }), false);
         }
     }
 
