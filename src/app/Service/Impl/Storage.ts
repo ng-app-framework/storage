@@ -36,21 +36,16 @@ export class Storage implements Storable {
     }
 
     set(key: string, value: any, store: boolean = true) {
-        if (this.shouldStore(key)) {
+        if (this.hasOwnProperty(key)) {
             this[key] = value;
-            if (store) {
+            if (this.shouldStore(key) && store) {
                 this.store();
             }
-            return;
         }
-        throw `${this.constructor.name} - ${key} cannot be stored`;
     }
 
     get(key: string) {
-        if (this.shouldStore(key)) {
-            return this[key];
-        }
-        throw `${this.constructor.name} - ${key} cannot be stored`;
+        return this.hasOwnProperty(key) ? this[key] : undefined;
     }
 
     update(propertyBag: any, persist: boolean = true) {
