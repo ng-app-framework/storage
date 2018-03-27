@@ -15,7 +15,7 @@ export class NgStorageModule {
         Observable.fromEvent(window, 'storage')
                   .subscribe((event: StorageEvent) => {
                       if (Storage.registry.hasOwnProperty(event.key)) {
-                          Storage.registry[event.key].load();
+                          Storage.registry[event.key].onStorageChange();
                       }
                   });
     }

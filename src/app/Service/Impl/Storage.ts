@@ -29,6 +29,10 @@ export class Storage implements Storable {
         this.loadFromStorage();
     }
 
+    public onStorageChange() {
+        this.load();
+    }
+
     public clear(): void {
         this.isCached = false;
         this.setItem('');
