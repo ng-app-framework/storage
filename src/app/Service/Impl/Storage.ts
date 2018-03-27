@@ -29,7 +29,7 @@ export class Storage implements Storable {
         this.loadFromStorage();
     }
 
-    public onStorageChange() {
+    public onStorageChange(event: StorageEvent) {
         this.load();
     }
 
